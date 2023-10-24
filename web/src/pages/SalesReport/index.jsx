@@ -5,6 +5,5 @@ export function SalesReport() {
     <Container>
       <h1>Relatório de Vendas</h1>
     </Container>
-
-  )
+  );
 }

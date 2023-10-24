@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect
-} from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext({});
 
@@ -20,10 +15,9 @@ function AuthProvider({ children }) {
       localStorage.setItem("@estock:user", JSON.stringify(user));
       localStorage.setItem("@estock:token", token);
 
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       setData({ token, user });
-
     } catch (error) {
       if (error.response) {
         alert(error.response.data.message);
@@ -31,7 +25,7 @@ function AuthProvider({ children }) {
         alert("Não foi possível entrar.");
       }
     }
-  };
+  }
 
   function signOut() {
     localStorage.removeItem("@estock:token");
@@ -40,30 +34,31 @@ function AuthProvider({ children }) {
     setData({});
   }
 
-
   useEffect(() => {
     const token = localStorage.getItem("@estock:token");
     const user = localStorage.getItem("@estock:user");
 
     if (token && user) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       setData({
         token,
-        user: JSON.parse(user)
+        user: JSON.parse(user),
       });
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{
-      signIn,
-      signOut,
-      user: data.user
-    }}>
+    <AuthContext.Provider
+      value={{
+        signIn,
+        signOut,
+        user: data.user,
+      }}
+    >
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
 function useAuth() {
